@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App.jsx';
+import About from './pages/about.jsx';
+import Product from './pages/product.jsx';
 
 const router = createBrowserRouter([
   {
@@ -11,7 +13,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/about',
-    element: <h1>About</h1>,
+    element: <About />,
+  },
+  {
+    path: '/product/:id',
+    element: <Product />,
   },
   {
     path: '*',

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function Product(props) {
   const product = props.product;
 
@@ -9,7 +11,9 @@ export default function Product(props) {
             <ul>
               <li>
                 <a href='single-product.html'>
-                  <i className='fa fa-eye'></i>
+                  <Link to={'/product/' + product.id}>
+                    <i className='fa fa-eye'></i>
+                  </Link>
                 </a>
               </li>
               <li>
