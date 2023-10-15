@@ -19,36 +19,25 @@ function App() {
   }, []);
 
   return (
-    <>
-      <section className='section' id='products'>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-lg-12'>
-              <div className='section-heading'>
-                <h2>Our Latest Products</h2>
-                <span>Check out all of our products.</span>
-              </div>
+    <section className='section' id='products'>
+      <div className='container'>
+        <div className='row'>
+          <div className='col-lg-12'>
+            <div className='section-heading'>
+              <h2>Our Latest Products</h2>
+              <span>Check out all of our products.</span>
             </div>
           </div>
         </div>
-        <div className='container'>
-          <div className='row'>
-            {products.map((product) => (
-              <Product product={product} key={product.id} />
-            ))}
-          </div>
+      </div>
+      <div className='container'>
+        <div className='row'>
+          {products.map((product) => (
+            <Product product={product} key={product.id} />
+          ))}
         </div>
-      </section>
-      <footer>
-        <div className='container'>
-          <ul>
-            <li>
-              <Link to='/about'>Бидний тухай</Link>
-            </li>
-          </ul>
-        </div>
-      </footer>
-    </>
+      </div>
+    </section>
   );
 }
 
