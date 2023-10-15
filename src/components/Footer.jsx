@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function Footer() {
   return (
     <footer>
@@ -22,50 +24,19 @@ export default function Footer() {
             </div>
           </div>
           <div className='col-lg-3'>
-            <h4>Shopping &amp; Categories</h4>
+            <h4>Хэрэгцээт линкүүд</h4>
             <ul>
               <li>
-                <a href='#'>Men’s Shopping</a>
+                <Link to='/'>Нүүр</Link>
               </li>
               <li>
-                <a href='#'>Women’s Shopping</a>
-              </li>
-              <li>
-                <a href='#'>Kid's Shopping</a>
-              </li>
-            </ul>
-          </div>
-          <div className='col-lg-3'>
-            <h4>Useful Links</h4>
-            <ul>
-              <li>
-                <a href='#'>Homepage</a>
-              </li>
-              <li>
-                <a href='#'>About Us</a>
+                <Link to='/about'>Бидний тухай</Link>
               </li>
               <li>
                 <a href='#'>Help</a>
               </li>
               <li>
                 <a href='#'>Contact Us</a>
-              </li>
-            </ul>
-          </div>
-          <div className='col-lg-3'>
-            <h4>Help &amp; Information</h4>
-            <ul>
-              <li>
-                <a href='#'>Help</a>
-              </li>
-              <li>
-                <a href='#'>FAQ's</a>
-              </li>
-              <li>
-                <a href='#'>Shipping</a>
-              </li>
-              <li>
-                <a href='#'>Tracking ID</a>
               </li>
             </ul>
           </div>
