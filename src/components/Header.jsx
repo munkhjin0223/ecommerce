@@ -19,6 +19,16 @@ export default function Header() {
                     Нүүр
                   </Link>
                 </li>
+                <li className='scroll-to-section'>
+                  <Link to='/login' className='active'>
+                    Нэвтрэх
+                  </Link>
+                </li>
+                <li className='scroll-to-section'>
+                  <Link to='/register' className='active'>
+                    Бүртгүүлэх
+                  </Link>
+                </li>
               </ul>
               <a className='menu-trigger'>
                 <span>Menu</span>
