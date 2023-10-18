@@ -1,72 +1,24 @@
-import React, { useState } from 'react';
-import { Card, Form } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
+import React from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { isLoading, isAuthenticated, error, user, loginWithRedirect, logout } = useAuth0();
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Oops... {error.message}</div>;
+  }
 
-    console.log('email', email);
-    console.log('password', password);
-
-    fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          window.location.href = '/';
-        } else {
-          alert(data.message);
-        }
-      });
-  };
-
-  return (
-    <>
-      <div className='page-heading about-page-heading' id='top'>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-lg-12'>
-              <div className='inner-content'>
-                <h2>About Our Company</h2>
-                <span>Awesome, clean &amp; creative HTML5 Template</span>
-              </div>
-            </div>
-          </div>
-        </div>
+  if (isAuthenticated) {
+    return (
+      <div>
+        Hello {user.name}{' '}
+        <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Log out</button>
       </div>
-      <div className='container'>
-        <div className='row justify-content-center mt-5'>
-          <div className='col-lg-4'>
-            <Card className='shadow'>
-              <Card.Title className='text-center border-bottom'>
-                <h2 className='p-3'>Нэвтрэх</h2>
-              </Card.Title>
-              <Card.Body>
-                <Form onSubmit={onSubmit}>
-                  <Form.Group className='mb-4'>
-                    <Form.Label>Имэйл</Form.Label>
-                    <Form.Control type='email' onChange={(e) => setEmail(e.target.value)} required />
-                  </Form.Group>
-                  <Form.Group className='mb-4'>
-                    <Form.Label>Нууц үг</Form.Label>
-                    <Form.Control type='password' onChange={(e) => setPassword(e.target.value)} required />
-                  </Form.Group>
-                  <Form.Group className='d-grid'>
-                    <Button type='submit'>Нэвтрэх</Button>
-                  </Form.Group>
-                </Form>
-              </Card.Body>
-            </Card>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+    );
+  } else {
+    return <button onClick={() => loginWithRedirect()}>Log in</button>;
+  }
 }

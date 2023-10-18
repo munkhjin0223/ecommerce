@@ -10,11 +10,9 @@ export default function Product(props) {
           <div className='hover-content'>
             <ul>
               <li>
-                <a href='single-product.html'>
-                  <Link to={'/product/' + product.id}>
-                    <i className='fa fa-eye'></i>
-                  </Link>
-                </a>
+                <Link to={'/product/' + product.id}>
+                  <i className='fa fa-eye'></i>
+                </Link>
               </li>
               <li>
                 <a href='single-product.html'>

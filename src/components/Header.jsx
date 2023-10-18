@@ -1,6 +1,16 @@
 import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function Header() {
+  const { isLoading, isAuthenticated, error, user, loginWithRedirect, logout } = useAuth0();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Oops... {error.message}</div>;
+  }
+
   return (
     <header className='header-area header-sticky'>
       <div className='container'>
@@ -19,16 +29,20 @@ export default function Header() {
                     Нүүр
                   </Link>
                 </li>
-                <li className='scroll-to-section'>
-                  <Link to='/login' className='active'>
-                    Нэвтрэх
-                  </Link>
-                </li>
-                <li className='scroll-to-section'>
-                  <Link to='/register' className='active'>
-                    Бүртгүүлэх
-                  </Link>
-                </li>
+                {isAuthenticated ? (
+                  <li>
+                    Hello {user.name}{' '}
+                    <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+                      Log out
+                    </button>
+                  </li>
+                ) : (
+                  <li className='scroll-to-section'>
+                    <Link className='active' onClick={() => loginWithRedirect()}>
+                      Нэвтрэх
+                    </Link>
+                  </li>
+                )}
               </ul>
               <a className='menu-trigger'>
                 <span>Menu</span>
