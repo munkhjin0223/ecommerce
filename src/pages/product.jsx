@@ -1,9 +1,14 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { ApplicationContext } from '../components/Layout';
 
 export default function Product() {
   const params = useParams();
   const [product, setProduct] = useState(null);
+
+  const { basket, setBasket } = useContext(ApplicationContext);
+
+  console.log(basket, 'basket');
 
   useEffect(() => {
     fetch('https://dummyjson.com/product/' + params.id)
@@ -95,7 +100,14 @@ export default function Product() {
                 <div className='total'>
                   <h4>Total: $210.00</h4>
                   <div className='main-border-button'>
-                    <a href='#'>Add To Cart</a>
+                    <a
+                      onClick={() => {
+                        setBasket([...basket, product]);
+                      }}
+                      href='#'
+                    >
+                      Add To Cart
+                    </a>
                   </div>
                 </div>
               </div>

@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { ApplicationContext } from './Layout';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export default function Header() {
+  const { basket } = useContext(ApplicationContext);
   const { isLoading, isAuthenticated, error, user, loginWithRedirect, logout } = useAuth0();
 
   if (isLoading) {
@@ -43,6 +46,11 @@ export default function Header() {
                     </Link>
                   </li>
                 )}
+                <li className='scroll-to-section'>
+                  <Link to='/shopping-card' className='active'>
+                    Сагс: {basket.length}
+                  </Link>
+                </li>
               </ul>
               <a className='menu-trigger'>
                 <span>Menu</span>
