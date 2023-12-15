@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { ApplicationContext } from './Layout';
+import Profile from './auth/Profile';
 
 export default function Header() {
   const { basket } = useContext(ApplicationContext);
@@ -28,6 +29,7 @@ export default function Header() {
                     Сагс: {basket.length}
                   </Link>
                 </li>
+                <Profile />
               </ul>
               <a className='menu-trigger'>
                 <span>Menu</span>
