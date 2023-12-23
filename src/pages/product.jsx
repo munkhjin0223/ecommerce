@@ -5,7 +5,7 @@ import useData from '../hooks/useData';
 
 export default function Product() {
   const params = useParams();
-  const { basket, setBasket } = useContext(ApplicationContext);
+  const { addToBasket } = useContext(ApplicationContext);
 
   const { data: product, loading } = useData('https://dummyjson.com/product/' + params.id);
 
@@ -33,8 +33,8 @@ export default function Product() {
           <div className='row'>
             <div className='col-lg-8'>
               <div className='left-images'>
-                {product.images.map((image) => (
-                  <img src={image} alt='' />
+                {product.images.map((image, index) => (
+                  <img key={index} src={image} alt='' />
                 ))}
               </div>
             </div>
@@ -93,7 +93,7 @@ export default function Product() {
                   <div className='main-border-button'>
                     <a
                       onClick={() => {
-                        setBasket([...basket, product]);
+                        addToBasket(product);
                       }}
                       href='#'
                     >
