@@ -9,6 +9,10 @@ import Product from './pages/product.jsx';
 import Layout from './components/Layout.jsx';
 import ShoppingCard from './pages/shopping-card.jsx';
 
+import ConcurrentDef from './pages/concurrent/concurrent-def.jsx';
+import ConcurrentTrans from './pages/concurrent/concurrent-trans.jsx';
+import BeforeConcurrent from './pages/concurrent/before-concurrent.jsx';
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Auth0Provider
@@ -28,6 +32,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='*' element={<h1>404 - Not found</h1>} />
           </Routes>
         </Layout>
+        <Routes>
+          <Route path='/concurrent-trans' element={<ConcurrentTrans />} />
+          <Route path='/concurrent-def' element={<ConcurrentDef />} />
+          <Route path='/before-concurrent' element={<BeforeConcurrent />} />
+        </Routes>
       </BrowserRouter>
     </Auth0Provider>
   </React.StrictMode>
