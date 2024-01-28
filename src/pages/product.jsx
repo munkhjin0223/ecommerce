@@ -1,11 +1,12 @@
 import { useParams } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { ApplicationContext } from '../components/Layout';
 import useData from '../hooks/useData';
 
 export default function Product() {
   const params = useParams();
   const { addToBasket } = useContext(ApplicationContext);
+  const [quantity, setQuantity] = useState(1);
 
   const { data: product, loading } = useData('https://dummyjson.com/product/' + params.id);
 
@@ -66,25 +67,41 @@ export default function Product() {
                 </div>
                 <div className='quantity-content'>
                   <div className='left-content'>
-                    <h6>No. of Orders</h6>
+                    <h6>Тоо хэмжээ</h6>
                   </div>
                   <div className='right-content'>
                     <div className='quantity buttons_added'>
-                      <input type='button' defaultValue='-' className='minus' />
+                      <input
+                        type='button'
+                        defaultValue='-'
+                        className='minus'
+                        onClick={() => {
+                          if (quantity > 1) {
+                            setQuantity((prevQuantity) => prevQuantity - 1);
+                          }
+                        }}
+                      />
                       <input
                         type='number'
                         step={1}
                         min={1}
                         max=''
                         name='quantity'
-                        defaultValue={1}
+                        value={quantity}
                         title='Qty'
                         className='input-text qty text'
                         size={4}
                         pattern=''
                         inputMode=''
                       />
-                      <input type='button' defaultValue='+' className='plus' />
+                      <input
+                        type='button'
+                        defaultValue='+'
+                        className='plus'
+                        onClick={() => {
+                          setQuantity((prevQuantity) => prevQuantity + 1);
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -93,7 +110,7 @@ export default function Product() {
                   <div className='main-border-button'>
                     <a
                       onClick={() => {
-                        addToBasket(product);
+                        addToBasket(product, quantity);
                       }}
                       href='#'
                     >

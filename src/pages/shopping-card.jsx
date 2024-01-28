@@ -3,7 +3,7 @@ import { ApplicationContext } from '../components/Layout';
 import { Link } from 'react-router-dom';
 
 export default function ShoppingCard() {
-  const { basket, removeFromBasket } = useContext(ApplicationContext);
+  const { basket, removeFromBasket, updateBasketItem } = useContext(ApplicationContext);
 
   return (
     <>
@@ -78,7 +78,10 @@ export default function ShoppingCard() {
                         className='form-control form-control-sm'
                         type='number'
                         id='quantity1'
-                        defaultValue={item.productQuantity}
+                        onChange={(e) => {
+                          updateBasketItem(item, parseInt(e.target.value));
+                        }}
+                        value={item.productQuantity}
                       />
                     </div>
                     <button

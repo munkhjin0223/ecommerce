@@ -20,7 +20,7 @@ export default function Product(props) {
                 </a>
               </li>
               <li>
-                <a onClick={() => addToBasket(product)}>
+                <a onClick={() => addToBasket(product, 1)}>
                   <i className='fa fa-shopping-cart'></i>
                 </a>
               </li>

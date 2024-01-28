@@ -5,6 +5,17 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 export const ApplicationContext = createContext({ basket: [], setBasket: () => {} });
 
+function updateDataToSanity(mutations) {
+  fetch(`https://${import.meta.env.VITE_SANITY_PROJECT_ID}.api.sanity.io/v2022-03-07/data/mutate/production`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${import.meta.env.VITE_SANITY_TOKEN}`,
+    },
+    body: JSON.stringify({ mutations }),
+  });
+}
+
 export default function Layout(props) {
   const { children } = props;
   const [basket, setBasket] = useState([]);
@@ -21,46 +32,62 @@ export default function Layout(props) {
       },
     ];
 
-    fetch(`https://${import.meta.env.VITE_SANITY_PROJECT_ID}.api.sanity.io/v2022-03-07/data/mutate/production`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${import.meta.env.VITE_SANITY_TOKEN}`,
-      },
-      body: JSON.stringify({ mutations }),
-    });
+    updateDataToSanity(mutations);
   };
 
-  const addToBasket = (product) => {
-    const existingProduct = basket.find((item) => item.productId === product.id);
+  const updateBasketItem = (basketItem, quantity) => {
+    const existingItem = basket.find((item) => item.productId === basketItem.productId);
 
-    if (existingProduct) {
-      return;
-    }
+    existingItem.productQuantity = quantity;
 
-    setBasket([...basket, product]);
+    setBasket([...basket]);
 
     const mutations = [
       {
-        createOrReplace: {
-          _type: 'basket',
-          productId: product.id,
-          productName: product.title,
-          productPrice: product.price,
-          productQuantity: 1,
-          userId: user.sub,
-        },
+        createOrReplace: existingItem,
       },
     ];
 
-    fetch(`https://${import.meta.env.VITE_SANITY_PROJECT_ID}.api.sanity.io/v2022-03-07/data/mutate/production`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${import.meta.env.VITE_SANITY_TOKEN}`,
+    updateDataToSanity(mutations);
+  };
+
+  const addToBasket = (product, quantity) => {
+    if (!user) {
+      alert('Та эхлээд нэвтэрнэ үү');
+      return;
+    }
+
+    const existingProduct = basket.find((item) => item.productId === product.id);
+
+    let newOrUpdatedItem;
+
+    if (existingProduct) {
+      existingProduct.productQuantity += quantity;
+
+      newOrUpdatedItem = existingProduct;
+
+      setBasket([...basket]);
+    } else {
+      newOrUpdatedItem = {
+        _id: `${Math.random().toString(36).substring(2, 9)}`,
+        _type: 'basket',
+        productId: product.id,
+        productName: product.title,
+        productPrice: product.price,
+        productQuantity: quantity,
+        userId: user.sub,
+      };
+
+      setBasket([...basket, newOrUpdatedItem]);
+    }
+
+    const mutations = [
+      {
+        createOrReplace: newOrUpdatedItem,
       },
-      body: JSON.stringify({ mutations }),
-    });
+    ];
+
+    updateDataToSanity(mutations);
   };
 
   useEffect(() => {
@@ -92,7 +119,7 @@ export default function Layout(props) {
 
   return (
     <>
-      <ApplicationContext.Provider value={{ basket, addToBasket, removeFromBasket }}>
+      <ApplicationContext.Provider value={{ basket, addToBasket, removeFromBasket, updateBasketItem }}>
         <Header />
         {children}
         <Footer />
