@@ -7,12 +7,16 @@ export default function Product() {
   const params = useParams();
   const { addToBasket } = useContext(ApplicationContext);
   const [quantity, setQuantity] = useState(1);
+  const [autoPlay, setAutoPlay] = useState(true);
+  const [counter, setCounter] = useState(0);
 
   const { data: product, loading } = useData('https://dummyjson.com/product/' + params.id);
 
   if (loading) {
     return <div>...</div>;
   }
+
+  console.log(quantity, 'quantity', autoPlay, 'autoPlay', counter, 'counter');
 
   return (
     <>
@@ -42,7 +46,9 @@ export default function Product() {
             <div className='col-lg-4'>
               <div className='right-content'>
                 <h4>{product.title}</h4>
-                <span className='price'>${product.price}</span>
+                <span className='price'>
+                  ${product.price} ========= {autoPlay}
+                </span>
                 <ul className='stars'>
                   <li>
                     <i className='fa fa-star' />
@@ -78,6 +84,8 @@ export default function Product() {
                         onClick={() => {
                           if (quantity > 1) {
                             setQuantity((prevQuantity) => prevQuantity - 1);
+                            setAutoPlay((prevAutoPlay) => !prevAutoPlay);
+                            setCounter((prevCounter) => prevCounter - 1);
                           }
                         }}
                       />
@@ -100,6 +108,8 @@ export default function Product() {
                         className='plus'
                         onClick={() => {
                           setQuantity((prevQuantity) => prevQuantity + 1);
+                          setAutoPlay((prevAutoPlay) => !prevAutoPlay);
+                          setCounter((prevCounter) => prevCounter + 1);
                         }}
                       />
                     </div>

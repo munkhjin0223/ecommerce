@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
 
+export const sleep = (ms) => {
+  const start = performance.now();
+
+  while (performance.now() - start < ms);
+};
+
 export default function useData(url, defaultValue = {}) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,7 +24,7 @@ export default function useData(url, defaultValue = {}) {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [url]);
 
   return { data, loading };
 }
